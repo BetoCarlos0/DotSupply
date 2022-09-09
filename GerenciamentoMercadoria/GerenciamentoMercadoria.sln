@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerenciamentoMercadoria", "GerenciamentoMercadoria.csproj", "{572DB6BF-C3B9-4D11-9C5E-2C6A441C2A19}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{572DB6BF-C3B9-4D11-9C5E-2C6A441C2A19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{572DB6BF-C3B9-4D11-9C5E-2C6A441C2A19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{572DB6BF-C3B9-4D11-9C5E-2C6A441C2A19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{572DB6BF-C3B9-4D11-9C5E-2C6A441C2A19}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {09104FAA-20DB-4D4C-8252-3584D1DE59C4}
+	EndGlobalSection
+EndGlobal
