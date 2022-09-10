@@ -1,3 +1,8 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 html {
   font-size: 14px;
 }
@@ -15,4 +20,61 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+.home a {
+    font-size: 1.4rem;
+    margin: 0 8px 15px 8px;
+}
+
+/*------------- List -------------------*/
+.list {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+.list .btn-success {
+    width: 100px;
+}
+.table th {
+    width: 40px;
+}
+
+.table td a {
+    margin: 0 8px;
+}
+
+
+/*------------- create -------------------*/
+.form-create {
+    max-width: 400px;
+    margin: 0 auto;
+}
+.form-create .col {
+    border: 0px solid black;
+    box-shadow: 0px 8px 25px gray;
+    margin-bottom: 15px;
+    padding: 25px 20px;
+    border-radius: 10px;
+}
+
+.form-create .form-floating {
+    margin: 15px 0;
+}
+
+.form-create button[type="submit"] {
+    font-weight: 500;
+    font-size: 1.2rem;
+    padding: 10px 0;
+    width: 100%;
+}
+
+.back-list a {
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: gray;
+}
+
+.back-list svg {
+    margin-right: 8px;
 }
