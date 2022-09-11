@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GerenciamentoMercadoria.Migrations
 {
     [DbContext(typeof(GerenciamentoMercadoriaContext))]
-    [Migration("20220910013625_Initial")]
+    [Migration("20220911024841_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,10 +44,16 @@ namespace GerenciamentoMercadoria.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<int>("MercadoriaId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantidade")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MercadoriaId")
+                        .IsUnique();
 
                     b.ToTable("entradaSaidaMercadorias");
                 });
@@ -64,9 +70,6 @@ namespace GerenciamentoMercadoria.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
-
-                    b.Property<int?>("EntradaSaidaMercadoriaId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Fabricante")
                         .IsRequired()
@@ -88,21 +91,23 @@ namespace GerenciamentoMercadoria.Migrations
 
                     b.HasKey("MercadoriaId");
 
-                    b.HasIndex("EntradaSaidaMercadoriaId");
-
                     b.ToTable("Mercadoria");
-                });
-
-            modelBuilder.Entity("GerenciamentoMercadoria.Models.Mercadoria", b =>
-                {
-                    b.HasOne("GerenciamentoMercadoria.Models.EntradaSaidaMercadoria", null)
-                        .WithMany("Mercadorias")
-                        .HasForeignKey("EntradaSaidaMercadoriaId");
                 });
 
             modelBuilder.Entity("GerenciamentoMercadoria.Models.EntradaSaidaMercadoria", b =>
                 {
-                    b.Navigation("Mercadorias");
+                    b.HasOne("GerenciamentoMercadoria.Models.Mercadoria", "Mercadoria")
+                        .WithOne("EntradaSaidaMercadoria")
+                        .HasForeignKey("GerenciamentoMercadoria.Models.EntradaSaidaMercadoria", "MercadoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Mercadoria");
+                });
+
+            modelBuilder.Entity("GerenciamentoMercadoria.Models.Mercadoria", b =>
+                {
+                    b.Navigation("EntradaSaidaMercadoria");
                 });
 #pragma warning restore 612, 618
         }

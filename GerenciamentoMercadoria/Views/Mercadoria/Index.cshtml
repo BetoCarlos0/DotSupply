@@ -8,9 +8,13 @@
 <div class="list">
     <h1>Mercadorias</h1>
 
-    <p>
-        <a class="btn btn-success" asp-action="Create">Novo</a>
-    </p>
+    <button type="button" class="btn btn-success" data-toggle="ajax-modal" data-target="#staticBackdrop"
+            data-url="@Url.Action("Create")">
+        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-plus" viewBox="4 4 7 10">
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+        </svg>
+        Novo
+    </button>
 
     <table class="table table-striped table-hover">
         <thead>
@@ -33,6 +37,9 @@
         <tbody>
     @foreach (var item in Model) {
             <tr>
+                <td class="d-none">
+                    @item.MercadoriaId
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Nome)
                 </td>
@@ -46,12 +53,23 @@
                     @Html.DisplayFor(modelItem => item.Tipo)
                 </td>
                 <td>
-                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.MercadoriaId">Editar</a>
-                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.MercadoriaId">Detalhes</a>
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.MercadoriaId">Deletar</a>
+                    <button type="button" class="btn btn-warning" data-toggle="ajax-modal" data-target="#staticBackdrop"
+                        data-url="@Url.Action("Edit", new {id = item.MercadoriaId})">
+                        Editar
+                    </button>
+
+                    <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#staticBackdrop"
+                        data-url="@Url.Action("Details", new {id = item.MercadoriaId})">
+                        Detalhes
+                    </button>
+
+                    <button type="button" class="btn btn-danger" data-toggle="ajax-modal" data-target="#staticBackdrop" 
+                        data-url="@Url.Action("Delete", new {id = item.MercadoriaId})">Deletar</button>
                 </td>
             </tr>
     }
         </tbody>
     </table>
 </div>
+
+<div id="placeholderHere"></div>

@@ -19,18 +19,25 @@ namespace GerenciamentoMercadoria.Controllers
         }
 
         // GET: EntradaSaidaMercadoria
+        [Route("/entrada-mercadoria")]
         public async Task<IActionResult> EntradaMercadoria()
         {
-            return _context.entradaSaidaMercadorias != null ?
-                View(await _context.entradaSaidaMercadorias.ToListAsync()) :
+            ViewBag.infoCadastro = "entrada";
+            return _context.entradaSaidaMercadorias != null ? 
+                View(await _context.entradaSaidaMercadorias
+                    .Where(x => x.InfoCadastro == "entrada")
+                    .Include(x => x.Mercadoria).ToListAsync()) :
                 Problem("Entity set 'GerenciamentoMercadoriaContext.entradaSaidaMercadorias'  is null.");
         }
 
+        [Route("/saida-mercadoria")]
         public async Task<IActionResult> SaidaMercadoria()
         {
             return _context.entradaSaidaMercadorias != null ?
-                        View(await _context.entradaSaidaMercadorias.ToListAsync()) :
-                        Problem("Entity set 'GerenciamentoMercadoriaContext.entradaSaidaMercadorias'  is null.");
+                View(await _context.entradaSaidaMercadorias
+                    .Where(x => x.InfoCadastro == "saida")
+                    .Include(x => x.Mercadoria).ToListAsync()) :
+                Problem("Entity set 'GerenciamentoMercadoriaContext.entradaSaidaMercadorias'  is null.");
         }
 
 
@@ -43,19 +50,25 @@ namespace GerenciamentoMercadoria.Controllers
             }
 
             var entradaSaidaMercadoria = await _context.entradaSaidaMercadorias
+                .Include(x => x.Mercadoria)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (entradaSaidaMercadoria == null)
             {
                 return NotFound();
             }
 
-            return View(entradaSaidaMercadoria);
+            return PartialView("DetailModalPartial", entradaSaidaMercadoria);
         }
 
         // GET: EntradaSaidaMercadoria/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(string info)
         {
-            return View();
+            var allMercadoria = await _context.Mercadoria.ToListAsync();
+
+            ViewBag.Mercadorias = new SelectList(allMercadoria, "MercadoriaId", "Nome");
+            ViewBag.info = info;
+
+            return PartialView("CreateModalPartial");
         }
 
         // POST: EntradaSaidaMercadoria/Create
@@ -63,15 +76,19 @@ namespace GerenciamentoMercadoria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,InfoCadastro,Quantidade,Data,Local")] EntradaSaidaMercadoria entradaSaidaMercadoria)
+        public async Task<IActionResult> Create([Bind("Id,InfoCadastro,Quantidade,Data,Local, MercadoriaId")] EntradaSaidaMercadoria entradaSaidaMercadoria)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(entradaSaidaMercadoria);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                if (entradaSaidaMercadoria.InfoCadastro == "entrada")
+                    return RedirectToAction(nameof(EntradaMercadoria));
+                else
+                    return RedirectToAction(nameof(SaidaMercadoria));
             }
-            return View(entradaSaidaMercadoria);
+            return PartialView("CreateModalPartial", entradaSaidaMercadoria);
         }
 
         // GET: EntradaSaidaMercadoria/Edit/5
@@ -82,12 +99,16 @@ namespace GerenciamentoMercadoria.Controllers
                 return NotFound();
             }
 
-            var entradaSaidaMercadoria = await _context.entradaSaidaMercadorias.FindAsync(id);
+            var allMercadoria = await _context.Mercadoria.ToListAsync();
+
+            ViewBag.Mercadorias = new SelectList(allMercadoria, "MercadoriaId", "Nome");
+
+            var entradaSaidaMercadoria = await _context.entradaSaidaMercadorias.Include(x => x.Mercadoria).FirstOrDefaultAsync(x => x.Id.Equals(id));
             if (entradaSaidaMercadoria == null)
             {
                 return NotFound();
             }
-            return View(entradaSaidaMercadoria);
+            return PartialView("EditModalPartial", entradaSaidaMercadoria);
         }
 
         // POST: EntradaSaidaMercadoria/Edit/5
@@ -95,7 +116,7 @@ namespace GerenciamentoMercadoria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,InfoCadastro,Quantidade,Data,Local")] EntradaSaidaMercadoria entradaSaidaMercadoria)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,InfoCadastro,Quantidade,Data,Local, MercadoriaId")] EntradaSaidaMercadoria entradaSaidaMercadoria)
         {
             if (id != entradaSaidaMercadoria.Id)
             {
@@ -120,7 +141,10 @@ namespace GerenciamentoMercadoria.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                if (entradaSaidaMercadoria.InfoCadastro == "entrada")
+                    return RedirectToAction(nameof(EntradaMercadoria));
+                else
+                    return RedirectToAction(nameof(SaidaMercadoria));
             }
             return View(entradaSaidaMercadoria);
         }
@@ -134,13 +158,13 @@ namespace GerenciamentoMercadoria.Controllers
             }
 
             var entradaSaidaMercadoria = await _context.entradaSaidaMercadorias
+                .Include(x => x.Mercadoria)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (entradaSaidaMercadoria == null)
             {
                 return NotFound();
             }
-
-            return View(entradaSaidaMercadoria);
+            return PartialView("DeleteModalPartial", entradaSaidaMercadoria);
         }
 
         // POST: EntradaSaidaMercadoria/Delete/5
@@ -159,7 +183,10 @@ namespace GerenciamentoMercadoria.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (entradaSaidaMercadoria.InfoCadastro == "entrada")
+                return RedirectToAction(nameof(EntradaMercadoria));
+            else
+                return RedirectToAction(nameof(SaidaMercadoria));
         }
 
         private bool EntradaSaidaMercadoriaExists(int id)

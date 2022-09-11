@@ -1,0 +1,56 @@
+﻿@model EntradaSaidaMercadoria
+@{
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+}
+
+<div id="staticBackdrop" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content forms">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Editar Entrada Mercadoria</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="InfoCadastro" type="hidden" value="entrada" />
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-floating">
+                        <input asp-for="Quantidade" class="form-control" id="Quantidade" placeholder="Quantidade" />
+                        <label asp-for="Quantidade" for="Quantidade" class="control-label"></label>
+                        <span asp-validation-for="Quantidade" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <input asp-for="Data" class="form-control" id="Data" placeholder="Data" />
+                        <label asp-for="Data" for="Data" class="control-label"></label>
+                        <span asp-validation-for="Data" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <input asp-for="Local" class="form-control" id="Local" placeholder="Local" />
+                        <label asp-for="Local" for="Local" class="control-label"></label>
+                        <span asp-validation-for="Local" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        @Html.DropDownListFor(model => model.MercadoriaId, ViewBag.Mercadorias as SelectList, "Selecione a mercadoria", new { @class="form-select", @id="MercadoriaId"})
+                        <label asp-for="Mercadoria" for="MercadoriaId" class="control-label"></label>
+                        <span asp-validation-for="MercadoriaId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" value="Cadastrar" class="btn btn-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-check2" viewBox="4 4 7 10">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+                            </svg> Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

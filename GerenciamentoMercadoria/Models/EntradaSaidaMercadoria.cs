@@ -7,17 +7,20 @@ namespace GerenciamentoMercadoria.Models
     {
         public int Id { get; set; }
 
-        [Required, NotMapped, Column(TypeName = "varchar"), MaxLength(10)]
+        [Required, Column(TypeName = "varchar"), MaxLength(10)]
         public string InfoCadastro { get; set; }
 
         [Required(ErrorMessage = "{0} Vazio")]
         public int Quantidade { get; set; }
 
-        [Required(ErrorMessage = "{0} Vazio"), DataType(DataType.Date)]
+        [Required(ErrorMessage = "{0} Vazio"), DataType(DataType.DateTime)]
         public DateTime Data { get; set; }
 
         [Required(ErrorMessage = "{0} Vazio"), Column(TypeName = "varchar"), MaxLength(50)]
         public string Local { get; set; }
-        public IEnumerable<Mercadoria> ? Mercadorias { get; set; }
+
+        [Required(ErrorMessage = "{0} Vazio")]
+        public int MercadoriaId { get; set; }
+        public Mercadoria ?Mercadoria { get; set; }
     }
 }

@@ -21,5 +21,8 @@ namespace GerenciamentoMercadoria.Models
 
         [Required(ErrorMessage = "{0} Vazio"), Display(Name = "Descrição"), Column(TypeName = "varchar"), MaxLength(200)]
         public string Descricao { get; set; }
+
+        [NotMapped]
+        public EntradaSaidaMercadoria ?EntradaSaidaMercadoria { get; set; }
     }
 }

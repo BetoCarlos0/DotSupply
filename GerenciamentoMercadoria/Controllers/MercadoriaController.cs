@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GerenciamentoMercadoria.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using GerenciamentoMercadoria.Models;
 
 namespace GerenciamentoMercadoria.Controllers
 {
@@ -41,13 +36,14 @@ namespace GerenciamentoMercadoria.Controllers
                 return NotFound();
             }
 
-            return View(mercadoria);
+            return PartialView("detailModalPartial", mercadoria);
         }
 
         // GET: Mercadoria/Create
+        [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return PartialView("CreateModalPartial");
         }
 
         // POST: Mercadoria/Create
@@ -63,10 +59,11 @@ namespace GerenciamentoMercadoria.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(mercadoria);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Mercadoria/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Mercadoria == null)
@@ -79,7 +76,7 @@ namespace GerenciamentoMercadoria.Controllers
             {
                 return NotFound();
             }
-            return View(mercadoria);
+            return PartialView("EditModalPartial", mercadoria);
         }
 
         // POST: Mercadoria/Edit/5
@@ -114,10 +111,11 @@ namespace GerenciamentoMercadoria.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(mercadoria);
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Mercadoria/Delete/5
+        //GET: Mercadoria/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Mercadoria == null)
@@ -132,26 +130,26 @@ namespace GerenciamentoMercadoria.Controllers
                 return NotFound();
             }
 
-            return View(mercadoria);
+            return PartialView("DeleteModalPartial", mercadoria);
         }
 
         // POST: Mercadoria/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(Mercadoria merc)
         {
             if (_context.Mercadoria == null)
             {
                 return Problem("Entity set 'GerenciamentoMercadoriaContext.Mercadoria'  is null.");
             }
-            var mercadoria = await _context.Mercadoria.FindAsync(id);
+            var mercadoria = await _context.Mercadoria.FindAsync(merc.MercadoriaId);
             if (mercadoria != null)
             {
                 _context.Mercadoria.Remove(mercadoria);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return PartialView("DeleteModalPartial", mercadoria);
         }
 
         private bool MercadoriaExists(int id)
