@@ -27,12 +27,11 @@ namespace GerenciamentoMercadoria.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "entradaSaidaMercadorias",
+                name: "EntradaMercadoria",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    InfoCadastro = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false),
                     Quantidade = table.Column<int>(type: "int", nullable: false),
                     Data = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Local = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
@@ -40,9 +39,31 @@ namespace GerenciamentoMercadoria.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_entradaSaidaMercadorias", x => x.Id);
+                    table.PrimaryKey("PK_EntradaMercadoria", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_entradaSaidaMercadorias_Mercadoria_MercadoriaId",
+                        name: "FK_EntradaMercadoria_Mercadoria_MercadoriaId",
+                        column: x => x.MercadoriaId,
+                        principalTable: "Mercadoria",
+                        principalColumn: "MercadoriaId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SaidaMercadoria",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantidade = table.Column<int>(type: "int", nullable: false),
+                    Data = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Local = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    MercadoriaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SaidaMercadoria", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SaidaMercadoria_Mercadoria_MercadoriaId",
                         column: x => x.MercadoriaId,
                         principalTable: "Mercadoria",
                         principalColumn: "MercadoriaId",
@@ -50,16 +71,23 @@ namespace GerenciamentoMercadoria.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_entradaSaidaMercadorias_MercadoriaId",
-                table: "entradaSaidaMercadorias",
-                column: "MercadoriaId",
-                unique: true);
+                name: "IX_EntradaMercadoria_MercadoriaId",
+                table: "EntradaMercadoria",
+                column: "MercadoriaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaidaMercadoria_MercadoriaId",
+                table: "SaidaMercadoria",
+                column: "MercadoriaId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "entradaSaidaMercadorias");
+                name: "EntradaMercadoria");
+
+            migrationBuilder.DropTable(
+                name: "SaidaMercadoria");
 
             migrationBuilder.DropTable(
                 name: "Mercadoria");

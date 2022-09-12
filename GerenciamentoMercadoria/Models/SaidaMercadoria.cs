@@ -1,14 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace GerenciamentoMercadoria.Models
 {
-    public class EntradaSaidaMercadoria
+    public class SaidaMercadoria
     {
         public int Id { get; set; }
-
-        [Required, Column(TypeName = "varchar"), MaxLength(10)]
-        public string InfoCadastro { get; set; }
 
         [Required(ErrorMessage = "{0} Vazio")]
         public int Quantidade { get; set; }
@@ -17,10 +15,10 @@ namespace GerenciamentoMercadoria.Models
         public DateTime Data { get; set; }
 
         [Required(ErrorMessage = "{0} Vazio"), Column(TypeName = "varchar"), MaxLength(50)]
-        public string Local { get; set; }
+        public string ?Local { get; set; }
 
         [Required(ErrorMessage = "{0} Vazio")]
         public int MercadoriaId { get; set; }
-        public Mercadoria ?Mercadoria { get; set; }
+        public Mercadoria? Mercadoria { get; set; }
     }
 }

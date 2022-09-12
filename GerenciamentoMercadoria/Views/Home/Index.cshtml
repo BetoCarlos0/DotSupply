@@ -3,11 +3,18 @@
 }
 
 <div class="home text-center">
-    <h1 class="display-4">MStarSupply</h1>
-    <div><a asp-controller="Mercadoria" asp-action="Index" class="btn btn-success">Mercadorias</a></div>
 
-    <div>
-        <a asp-controller="EntradaSaidaMercadoria" asp-action="EntradaMercadoria" class="btn btn-primary">Entrada de Mercadoria</a>
-        <a asp-controller="EntradaSaidaMercadoria" asp-action="SaidaMercadoria" class="btn btn-info">Saída de Mercadoria</a>
+    <div class="buttons">
+        <h1 class="title">MStarSupply</h1>
+        <a asp-controller="Home" asp-action="Grafic" class="btn btn-success">Gráfico</a>
+
+        <a asp-controller="Mercadoria" asp-action="Index" class="btn btn-secondary">Mercadorias</a>
+
+        <a asp-controller="EntradaMercadoria" asp-action="Index" class="btn btn-primary">Entrada de Mercadoria</a>
+        <a asp-controller="SaidaMercadoria" asp-action="Index" class="btn btn-primary">Saída de Mercadoria</a>
+
+    </div>
+    <div class="img">
+        <img src="../images/background.png"/>
     </div>
 </div>

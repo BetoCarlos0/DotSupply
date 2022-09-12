@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GerenciamentoMercadoria.Migrations
 {
     [DbContext(typeof(GerenciamentoMercadoriaContext))]
-    [Migration("20220911024841_Initial")]
+    [Migration("20220911114549_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,7 @@ namespace GerenciamentoMercadoria.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("GerenciamentoMercadoria.Models.EntradaSaidaMercadoria", b =>
+            modelBuilder.Entity("GerenciamentoMercadoria.Models.EntradaMercadoria", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,11 +33,6 @@ namespace GerenciamentoMercadoria.Migrations
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("InfoCadastro")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
 
                     b.Property<string>("Local")
                         .IsRequired()
@@ -52,10 +47,9 @@ namespace GerenciamentoMercadoria.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MercadoriaId")
-                        .IsUnique();
+                    b.HasIndex("MercadoriaId");
 
-                    b.ToTable("entradaSaidaMercadorias");
+                    b.ToTable("EntradaMercadoria");
                 });
 
             modelBuilder.Entity("GerenciamentoMercadoria.Models.Mercadoria", b =>
@@ -94,20 +88,55 @@ namespace GerenciamentoMercadoria.Migrations
                     b.ToTable("Mercadoria");
                 });
 
-            modelBuilder.Entity("GerenciamentoMercadoria.Models.EntradaSaidaMercadoria", b =>
+            modelBuilder.Entity("GerenciamentoMercadoria.Models.SaidaMercadoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Local")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("MercadoriaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MercadoriaId");
+
+                    b.ToTable("SaidaMercadoria");
+                });
+
+            modelBuilder.Entity("GerenciamentoMercadoria.Models.EntradaMercadoria", b =>
                 {
                     b.HasOne("GerenciamentoMercadoria.Models.Mercadoria", "Mercadoria")
-                        .WithOne("EntradaSaidaMercadoria")
-                        .HasForeignKey("GerenciamentoMercadoria.Models.EntradaSaidaMercadoria", "MercadoriaId")
+                        .WithMany()
+                        .HasForeignKey("MercadoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Mercadoria");
                 });
 
-            modelBuilder.Entity("GerenciamentoMercadoria.Models.Mercadoria", b =>
+            modelBuilder.Entity("GerenciamentoMercadoria.Models.SaidaMercadoria", b =>
                 {
-                    b.Navigation("EntradaSaidaMercadoria");
+                    b.HasOne("GerenciamentoMercadoria.Models.Mercadoria", "Mercadoria")
+                        .WithMany()
+                        .HasForeignKey("MercadoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Mercadoria");
                 });
 #pragma warning restore 612, 618
         }

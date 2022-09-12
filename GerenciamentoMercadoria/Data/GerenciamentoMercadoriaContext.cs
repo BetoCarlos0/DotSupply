@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GerenciamentoMercadoria.Models;
 using Microsoft.EntityFrameworkCore;
-using GerenciamentoMercadoria.Models;
 
-    public class GerenciamentoMercadoriaContext : DbContext
+public class GerenciamentoMercadoriaContext : DbContext
+{
+    public GerenciamentoMercadoriaContext (DbContextOptions<GerenciamentoMercadoriaContext> options)
+        : base(options)
     {
-        public GerenciamentoMercadoriaContext (DbContextOptions<GerenciamentoMercadoriaContext> options)
-            : base(options)
-        {
-        }
-
-        public DbSet<Mercadoria> Mercadoria { get; set; } = default!;
-        public DbSet<EntradaSaidaMercadoria> entradaSaidaMercadorias { get; set; } = default!;
     }
+
+    public DbSet<Mercadoria> Mercadoria { get; set; } = default!;
+    public DbSet<EntradaMercadoria> EntradaMercadoria { get; set; } = default!;
+    public DbSet<SaidaMercadoria> SaidaMercadoria { get; set; } = default!;
+}
