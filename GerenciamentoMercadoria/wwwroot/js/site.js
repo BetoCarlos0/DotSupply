@@ -19,7 +19,6 @@ $(function () {
         var actionUrl = form.attr('action');
         var sendData = form.serialize();
         $.post(actionUrl, sendData).done(function (data) {
-            //PlaceholderElement.find('.modal').modal('hide');
             location.reload();
         })
     })

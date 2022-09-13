@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Diagnostics;
 
 namespace GerenciamentoMercadoria.Controllers
@@ -23,20 +22,90 @@ namespace GerenciamentoMercadoria.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Grafic()
+        public IActionResult Graphic()
         {
-            //var produtos = await _context.Mercadoria.ToListAsync();
-            //var mes = await _context.EntradaMercadoria.ToListAsync();
+            return View();
+        }
 
-            var data = _context.EntradaMercadoria.GroupBy(x => new { x.MercadoriaId, x.Data.Month }).Select(x => 
-                new ViewModelData {
-                    Nome = x.First().Mercadoria.Nome,
-                    Quantidade = x.Sum(x => x.Quantidade)
-                }).ToList();
+        public async Task<List<ViewModelData>> Datas()
+        {
 
-            ViewBag.qntMercadoria = data.Count();
+            var tempEntrada = await _context.EntradaMercadoria.GroupBy(x => new { x.Data.Month, x.MercadoriaId }).Select(x =>
+                new ViewModelData
+                {
+                    Nome = "ent " + x.First().Mercadoria.Nome,
+                    Quantidade = x.Sum(x => x.Quantidade),
+                    Months = x.First().Data.Month,
+                    Id = x.First().Id
+                }
+            ).ToListAsync();
 
-            return View(data);
+            var tempSaida = await _context.SaidaMercadoria.GroupBy(x => new { x.Data.Month, x.MercadoriaId }).Select(x =>
+                new ViewModelData
+                {
+                    Nome = "sai " + x.First().Mercadoria.Nome,
+                    Quantidade = x.Sum(x => x.Quantidade),
+                    Months = x.First().Data.Month,
+                    Id = x.First().Id
+                }
+            ).ToListAsync();
+
+            var data = new List<ViewModelData>();
+
+            data.AddRange(MapData(tempEntrada));
+            ViewBag.Entrada = data.Count;
+
+            data.AddRange(MapData(tempSaida));
+
+
+            string []color = new string[] {"red", "blue", "yellow", "green", "purple", "geige", "orange", "pink", "navy blue", "brown", "burgundy", "khaki" };
+            for (int i = 0; i < data.Count; i++)
+            {
+                data[i].borderColor = color[i];
+            }
+
+            return data;
+        }
+
+        private List<ViewModelData> MapData(List<ViewModelData> temp)
+        {
+            var data = new List<ViewModelData>();
+
+            data.AddRange(temp.GroupBy(x => x.Nome).Select(x =>
+                new ViewModelData
+                {
+                    Nome = x.First().Nome,
+                    Quantidade = x.First().Quantidade,
+                    Months = x.First().Months,
+                    Id = x.First().Id
+                }
+            ).ToList());
+
+            foreach (var item in data)
+            {
+                item.ListData.Add(item.Quantidade);
+                item.ListMonth.Add(item.Months);
+
+                foreach (var itemtemp in temp)
+                {
+                    if (item.Nome == itemtemp.Nome && item.Id != itemtemp.Id)
+                    {
+                        item.ListData.Add(itemtemp.Quantidade);
+                        item.ListMonth.Add(itemtemp.Months);
+                    }
+                }
+            }
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                for (int j = 0; j < 12; j++)
+                {
+                    if (!data[i].ListMonth.Contains(j + 1))
+                        data[i].ListData.Insert(j, -1);
+                }
+            }
+
+            return data;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

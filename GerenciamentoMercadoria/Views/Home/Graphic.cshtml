@@ -1,0 +1,79 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutGraphic.cshtml";
+}
+
+<div class="chart-container" style="position: relative; height:40vh; width:80vw">
+    <canvas id="myChart" ></canvas>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+@section Scripts{
+    <script type="module">
+        import { months } from '../../js/utils.js'
+
+        $(document).ready(function () {
+            const ctx = document.getElementById('myChart');
+
+            const skipped = (ctx, value) => ctx.p0.skip || ctx.p1.skip ? value : undefined;
+
+            let segmentEnt = {
+                borderColor: ctx => skipped(ctx, 'rgb(0,0,0,0.1)'),
+                borderDash: ctx => skipped(ctx, [3, 6])
+            }
+            //let segmentSai = {
+            //    borderColor: ctx => skipped(ctx, 'rgb(0,0,0,0.1)'),
+            //    borderDash: [5, 6]
+            //}
+
+            let datasets = [];
+            datasets.segment = {};
+
+            let data = {
+                labels: months({ count: 12 }),
+                datasets: datasets
+            }
+
+            let url = "https://localhost:7258/Home/Datas";
+
+
+            $.get(url).done(function (data) {
+                for (let i = 0; i < data.length; i++) {
+                    datasets[i] = data[i]
+                    datasets[i].Add
+                }
+                for (let i = 0; i < datasets.length; i++) {
+                    for (let j = 0; j < datasets[i].data.length; j++) {
+                        if (datasets[i].data[j] == -1) {
+                            datasets[i].data[j] = NaN;
+                        }
+                    }
+                    if (datasets[i].label.match('ent') != null){
+                        datasets[i].segment = segmentEnt;
+                    }
+                    else
+                        datasets[i].borderDash = [4, 5];
+                }
+            })
+
+            console.log(data)
+
+            new Chart("myChart", {
+                type: "line",
+                data,
+                options: {
+                    tension: 0.4,
+                    spanGaps: true,
+                    fill: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    radius: 5,
+                }
+            });
+        })
+
+
+    </script>
+}
