@@ -104,3 +104,26 @@ main img {
 .back-list svg {
     margin-right: 8px;
 }
+
+/*------------- Graphic -------------------*/
+#isempty {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.chart-container {
+    position: relative;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.chart-container form {
+    max-width: 300px;
+    display: flex;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+.chart-container form button {
+    width: 170px;
+}

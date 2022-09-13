@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GerenciamentoMercadoria.Models
 {
-    public abstract class BaseEntSaiMercadoria
+    public class BaseEntSaiMercadoria
     {
         public int Id { get; set; }
 

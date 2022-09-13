@@ -1,6 +1,6 @@
-﻿using GerenciamentoMercadoria.Models;
+﻿using GerenciamentoMercadoria.Interfaces;
+using GerenciamentoMercadoria.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
@@ -10,11 +10,13 @@ namespace GerenciamentoMercadoria.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly GerenciamentoMercadoriaContext _context;
+        private readonly IPdfService _pdfService;
 
-        public HomeController(ILogger<HomeController> logger, GerenciamentoMercadoriaContext context)
+        public HomeController(ILogger<HomeController> logger, GerenciamentoMercadoriaContext context, IPdfService pdfService)
         {
             _logger = logger;
             _context = context;
+            _pdfService = pdfService;
         }
 
         public IActionResult Index()
@@ -25,6 +27,13 @@ namespace GerenciamentoMercadoria.Controllers
         public IActionResult Graphic()
         {
             return View();
+        }
+
+        public async Task<IActionResult> GetPdf(int mes)
+        {
+            await _pdfService.GerarPdf();
+
+            return RedirectToAction(nameof(Graphic));
         }
 
         public async Task<List<ViewModelData>> Datas()
@@ -53,16 +62,8 @@ namespace GerenciamentoMercadoria.Controllers
             var data = new List<ViewModelData>();
 
             data.AddRange(MapData(tempEntrada));
-            ViewBag.Entrada = data.Count;
 
             data.AddRange(MapData(tempSaida));
-
-
-            string []color = new string[] {"red", "blue", "yellow", "green", "purple", "geige", "orange", "pink", "navy blue", "brown", "burgundy", "khaki" };
-            for (int i = 0; i < data.Count; i++)
-            {
-                data[i].borderColor = color[i];
-            }
 
             return data;
         }
@@ -103,6 +104,12 @@ namespace GerenciamentoMercadoria.Controllers
                     if (!data[i].ListMonth.Contains(j + 1))
                         data[i].ListData.Insert(j, -1);
                 }
+            }
+
+            string[] color = new string[] { "red", "blue", "yellow", "green", "purple", "geige", "orange", "pink", "navy blue", "brown", "burgundy", "khaki" };
+            for (int i = 0; i < data.Count; i++)
+            {
+                data[i].borderColor = color[i];
             }
 
             return data;

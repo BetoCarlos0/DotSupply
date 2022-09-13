@@ -3,7 +3,10 @@
     Layout = "~/Views/Shared/_LayoutGraphic.cshtml";
 }
 
-<div class="chart-container" style="position: relative; height:40vh; width:80vw">
+<h2 id="isempty"></h2>
+<div class="chart-container">
+    <a asp-controller="Home" asp-action="GetPdf" class="btn btn-success">Gerar PDF</a>
+
     <canvas id="myChart" ></canvas>
 </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -21,10 +24,6 @@
                 borderColor: ctx => skipped(ctx, 'rgb(0,0,0,0.1)'),
                 borderDash: ctx => skipped(ctx, [3, 6])
             }
-            //let segmentSai = {
-            //    borderColor: ctx => skipped(ctx, 'rgb(0,0,0,0.1)'),
-            //    borderDash: [5, 6]
-            //}
 
             let datasets = [];
             datasets.segment = {};
@@ -38,9 +37,12 @@
 
 
             $.get(url).done(function (data) {
+                console.log(data)
+                if (data.length == 0){
+                    document.getElementById("isempty").innerHTML = "Sem dados de entrada ou saida";
+                }
                 for (let i = 0; i < data.length; i++) {
                     datasets[i] = data[i]
-                    datasets[i].Add
                 }
                 for (let i = 0; i < datasets.length; i++) {
                     for (let j = 0; j < datasets[i].data.length; j++) {
@@ -73,7 +75,6 @@
                 }
             });
         })
-
 
     </script>
 }

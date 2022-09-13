@@ -1,5 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GerenciamentoMercadoria.Interfaces;
+using GerenciamentoMercadoria.Services;
+using Microsoft.DotNet.Scaffolding.Shared.ProjectModel;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Org.BouncyCastle.Asn1.X509.Qualified;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<GerenciamentoMercadoriaContext>(options =>
@@ -7,6 +12,8 @@ builder.Services.AddDbContext<GerenciamentoMercadoriaContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IPdfService, PdfService>();
 
 var app = builder.Build();
 
