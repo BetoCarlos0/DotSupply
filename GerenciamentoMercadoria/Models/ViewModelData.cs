@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace GerenciamentoMercadoria.Models
+namespace DotSupply.Models
 {
     public class ViewModelData
     {

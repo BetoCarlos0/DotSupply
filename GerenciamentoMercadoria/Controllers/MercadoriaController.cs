@@ -1,14 +1,14 @@
-﻿using GerenciamentoMercadoria.Models;
+﻿using DotSupply.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace GerenciamentoMercadoria.Controllers
+namespace DotSupply.Controllers
 {
     public class MercadoriaController : Controller
     {
-        private readonly GerenciamentoMercadoriaContext _context;
+        private readonly DotSupplyContext _context;
 
-        public MercadoriaController(GerenciamentoMercadoriaContext context)
+        public MercadoriaController(DotSupplyContext context)
         {
             _context = context;
         }

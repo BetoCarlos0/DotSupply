@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GerenciamentoMercadoria.Migrations
 {
-    [DbContext(typeof(GerenciamentoMercadoriaContext))]
+    [DbContext(typeof(DotSupplyContext))]
     [Migration("20220913112301_Initial")]
     partial class Initial
     {

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GerenciamentoMercadoria.Migrations
 {
-    [DbContext(typeof(GerenciamentoMercadoriaContext))]
+    [DbContext(typeof(DotSupplyContext))]
     partial class GerenciamentoMercadoriaContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

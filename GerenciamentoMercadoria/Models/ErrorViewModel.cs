@@ -1,4 +1,4 @@
-namespace GerenciamentoMercadoria.Models
+namespace DotSupply.Models
 {
     public class ErrorViewModel
     {

@@ -1,17 +1,17 @@
-﻿using GerenciamentoMercadoria.Interfaces;
+﻿using DotSupply.Interfaces;
 using iTextSharp.text.pdf;
 using iTextSharp.text;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using GerenciamentoMercadoria.Models;
+using DotSupply.Models;
 
-namespace GerenciamentoMercadoria.Services
+namespace DotSupply.Services
 {
     public class PdfService : IPdfService
     {
-        private readonly GerenciamentoMercadoriaContext _DbContext;
+        private readonly DotSupplyContext _DbContext;
 
-        public PdfService(GerenciamentoMercadoriaContext dbContext)
+        public PdfService(DotSupplyContext dbContext)
         {
             _DbContext = dbContext;
         }

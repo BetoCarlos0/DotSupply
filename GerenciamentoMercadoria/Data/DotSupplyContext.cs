@@ -1,9 +1,9 @@
-﻿using GerenciamentoMercadoria.Models;
+﻿using DotSupply.Models;
 using Microsoft.EntityFrameworkCore;
 
-public class GerenciamentoMercadoriaContext : DbContext
+public class DotSupplyContext : DbContext
 {
-    public GerenciamentoMercadoriaContext (DbContextOptions<GerenciamentoMercadoriaContext> options)
+    public DotSupplyContext (DbContextOptions<DotSupplyContext> options)
         : base(options)
     {
     }

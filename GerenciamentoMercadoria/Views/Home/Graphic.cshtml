@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = "~/Views/Shared/_LayoutGraphic.cshtml";
 }
 
@@ -37,7 +36,6 @@
 
 
             $.get(url).done(function (data) {
-                console.log(data)
                 if (data.length == 0){
                     document.getElementById("isempty").innerHTML = "Sem dados de entrada ou saida";
                 }
@@ -57,8 +55,6 @@
                         datasets[i].borderDash = [4, 5];
                 }
             })
-
-            console.log(data)
 
             new Chart("myChart", {
                 type: "line",

@@ -1,6 +1,6 @@
-﻿using GerenciamentoMercadoria.Models;
+﻿using DotSupply.Models;
 
-namespace GerenciamentoMercadoria.Interfaces
+namespace DotSupply.Interfaces
 {
     public interface IPdfService
     {

@@ -1,19 +1,18 @@
-﻿using GerenciamentoMercadoria.Interfaces;
-using GerenciamentoMercadoria.Services;
-using Microsoft.DotNet.Scaffolding.Shared.ProjectModel;
+﻿using DotSupply.Interfaces;
+using DotSupply.Services;
+using DotSupply.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Org.BouncyCastle.Asn1.X509.Qualified;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<GerenciamentoMercadoriaContext>(options =>
+builder.Services.AddDbContext<DotSupplyContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IPdfService, PdfService>();
+builder.Services.AddScoped<IDataGraphicService, DataGraphicService>();
 
 var app = builder.Build();
 

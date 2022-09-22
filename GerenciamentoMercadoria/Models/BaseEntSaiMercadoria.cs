@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace GerenciamentoMercadoria.Models
+namespace DotSupply.Models
 {
     public class BaseEntSaiMercadoria
     {

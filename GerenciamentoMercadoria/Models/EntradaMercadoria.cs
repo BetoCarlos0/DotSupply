@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GerenciamentoMercadoria.Models
+namespace DotSupply.Models
 {
     public class EntradaMercadoria
     {

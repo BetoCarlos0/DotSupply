@@ -1,22 +1,28 @@
-﻿using GerenciamentoMercadoria.Interfaces;
-using GerenciamentoMercadoria.Models;
+﻿using DotSupply.Services.Interfaces;
+using DotSupply.Interfaces;
+using DotSupply.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-namespace GerenciamentoMercadoria.Controllers
+namespace DotSupply.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly GerenciamentoMercadoriaContext _context;
+        private readonly DotSupplyContext _context;
         private readonly IPdfService _pdfService;
+        private readonly IDataGraphicService _dataGraphicService;
 
-        public HomeController(ILogger<HomeController> logger, GerenciamentoMercadoriaContext context, IPdfService pdfService)
+        public HomeController(ILogger<HomeController> logger,
+            DotSupplyContext context,
+            IPdfService pdfService,
+            IDataGraphicService graphicService)
         {
             _logger = logger;
             _context = context;
             _pdfService = pdfService;
+            _dataGraphicService = graphicService;
         }
 
         public IActionResult Index()
@@ -39,33 +45,34 @@ namespace GerenciamentoMercadoria.Controllers
         public async Task<List<ViewModelData>> Datas()
         {
 
-            var tempEntrada = await _context.EntradaMercadoria.GroupBy(x => new { x.Data.Month, x.MercadoriaId }).Select(x =>
-                new ViewModelData
-                {
-                    Nome = "ent " + x.First().Mercadoria.Nome,
-                    Quantidade = x.Sum(x => x.Quantidade),
-                    Months = x.First().Data.Month,
-                    Id = x.First().Id
-                }
-            ).ToListAsync();
+            return await _dataGraphicService.Datas();
+            //var tempEntrada = await _context.EntradaMercadoria.GroupBy(x => new { x.Data.Month, x.MercadoriaId }).Select(x =>
+            //    new ViewModelData
+            //    {
+            //        Nome = "ent " + x.First().Mercadoria.Nome,
+            //        Quantidade = x.Sum(x => x.Quantidade),
+            //        Months = x.First().Data.Month,
+            //        Id = x.First().Id
+            //    }
+            //).ToListAsync();
 
-            var tempSaida = await _context.SaidaMercadoria.GroupBy(x => new { x.Data.Month, x.MercadoriaId }).Select(x =>
-                new ViewModelData
-                {
-                    Nome = "sai " + x.First().Mercadoria.Nome,
-                    Quantidade = x.Sum(x => x.Quantidade),
-                    Months = x.First().Data.Month,
-                    Id = x.First().Id
-                }
-            ).ToListAsync();
+            //var tempSaida = await _context.SaidaMercadoria.GroupBy(x => new { x.Data.Month, x.MercadoriaId }).Select(x =>
+            //    new ViewModelData
+            //    {
+            //        Nome = "sai " + x.First().Mercadoria.Nome,
+            //        Quantidade = x.Sum(x => x.Quantidade),
+            //        Months = x.First().Data.Month,
+            //        Id = x.First().Id
+            //    }
+            //).ToListAsync();
 
-            var data = new List<ViewModelData>();
+            //var data = new List<ViewModelData>();
 
-            data.AddRange(MapData(tempEntrada));
+            //data.AddRange(MapData(tempEntrada));
 
-            data.AddRange(MapData(tempSaida));
+            //data.AddRange(MapData(tempSaida));
 
-            return data;
+            //return data;
         }
 
         private List<ViewModelData> MapData(List<ViewModelData> temp)
